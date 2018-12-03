@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>投票结果</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> 
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/new_vote.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body ontouchstart>
+    <div class="container bc">
+        <!--投票结果-->
+        <div class="page input js_show" id="result">
+            <!-- 投票信息 -->
+            <div class="page__hd most-top">
+                <h1 class="page__title" style="display: inline-block;">投票名称</h1>&nbsp;<span class="vote_type_muti">[多选][单选]</span>
+                <span class="vote_type_anon">[匿名]</span>
+                <p class="page__desc">投票描述</p>
+            </div>
+            <!-- 具体结果 -->
+            <div class="page__bd">
+
+                <!-- 选项列表 -->
+                <div class="weui-cells weui-cells_checkbox" id="item_list">
+
+                    <!-- 选项一结果 -->
+                    <label class="weui-cell weui-check__label control_line2" for="s11" style="border-top: 0px;">
+                        <div class="weui-cell__hd">
+                            <input type="checkbox" name="checkbox1" id="s11" class="weui-check" checked="checked">
+                            <i class="weui-icon-checked"></i>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>选项一</p>
+                        </div>
+                    </label>
+                    <!-- 用户头像and得票数-->
+                    <div class="user_img">
+                        <img src="img/touxiang.jpg"><img src="img/touxiang.jpg"><span class="percent">10票</span>
+                    </div>
+                    <!-- 进度条 -->
+                    <div class="pro">
+                        <div class="pro_detail"></div>
+                    </div>
+
+                    <!-- 选项二结果 -->
+                    <!-- <label class="weui-cell weui-check__label control_line2" for="s12">
+                        <div class="weui-cell__hd">
+                            <input type="checkbox" name="checkbox1" id="s12" class="weui-check" checked="checked">
+                            <i class="weui-icon-checked"></i>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>选项二</p>
+                        </div>
+                    </label>
+                    <div class="user_img">
+                        <img src="img/touxiang.jpg"><span class="percent">1票</span>
+                    </div>
+                    <div class="pro">
+                        <div class="pro_detail"></div>
+                    </div> -->
+
+                </div>
+
+                <!-- 截止日期 -->
+                <div class="weui-cells__title limit-time" id="limit-time"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/new_vote.js"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            //获取页面信息
+            var url = window.location.search.split('?')[1],
+                urlDate = url.split('&'),
+                page_title = decodeURIComponent(urlDate[0].split('=')[1]),
+                page_desc = decodeURIComponent(urlDate[1].split('=')[1]),
+                option = decodeURIComponent(urlDate[2].split('=')[1]),
+                opt_de = option.split(','),
+                deadline = urlDate[3].split('=')[1],
+                str=deadline.replace('T',' '),
+                anonymous = urlDate[4].split('=')[1],
+                multiple = urlDate[5].split('=')[1],
+                leng=opt_de.length,
+                len=0;
+                for(var l=0;l<leng;l++){
+                    if(opt_de[l].length>0){
+                        len++;
+                    }
+                }
+            console.log(url);
+            //展示页面信息
+            $('#limit-time').text('投票截至：'+str);//截止日期
+            $('.page__title').text(page_title);//投票标题
+            $('.page__desc').text(page_desc);//投票描述
+            for (var j = 0; j < len-1; j++) {
+                var str='<label class="weui-cell weui-check__label control_line2" for="s11" style="border-top: 0px;">\
+                        <div class="weui-cell__hd">\
+                            <input type="checkbox" name="checkbox1" id="s11" class="weui-check" checked="checked">\
+                            <i class="weui-icon-checked"></i>\
+                        </div>\
+                        <div class="weui-cell__bd">\
+                            <p>选项一</p>\
+                        </div>\
+                    </label>\
+                    <!-- 用户头像and得票数-->\
+                    <div class="user_img">\
+                        <img src="img/touxiang.jpg"><img src="img/touxiang.jpg"><span class="percent">10票</span>\
+                    </div>\
+                    <!-- 进度条 -->\
+                    <div class="pro">\
+                        <div class="pro_detail"></div>\
+                    </div>'
+                $('#item_list').append(str);
+            }//动态生成第一行之外其余选项
+            var list = $('.weui-cell__bd');
+            $.each(opt_de,function(i,val){
+                list.eq(i).text(val);
+            })//投票选项
+            if(anonymous=='on'){
+                $('.vote_type_anon').text('[匿名]');
+            }else{
+                $('.vote_type_anon').text('');
+            }//匿名投票判断
+            if(multiple=='on'){
+                $('.vote_type_muti').text('[多选]');
+            }else{
+                $('.vote_type_muti').text('[单选]');
+            }//多选投票判断
+        });
+
+        //进度条宽度获取
+        $(function(){
+            var sum=0,
+                per_item=[],
+                percent=$('.percent').text(),
+                pro_detail=$('.pro_detail');
+                percentArr = percent.split('票');
+            for(var i=0;i<percentArr.length-1;i++){
+                sum+=parseInt(percentArr[i]);
+            }
+            for(var j=0;j<percentArr.length-1;j++){
+                (function(j){
+                    pro_detail[j].style.width=(percentArr[j]/sum)*100+'%';
+                })(j);
+            }
+        });
+    </script>
+
+</body>
+</html>

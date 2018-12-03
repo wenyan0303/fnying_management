@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户投票</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">	
+	<link rel="stylesheet" href="css/weui.css">
+	<link rel="stylesheet" href="css/new_vote.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			function getParam(name,des,deadlin,bt1,bt2){
+				var title=new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var desc=new RegExp("(^|&)" + des + "=([^&]*)(&|$)");
+				var deadline=new RegExp("(^|&)" + deadlin + "=([^&]*)(&|$)");
+				var btn2_status=new RegExp("(^|&)" + bt2 + "=([^&]*)(&|$)");
+				var tit=window.location.search.substr(1).match(title);
+				var des=window.location.search.substr(1).match(desc);
+				var deadlin=window.location.search.substr(1).match(deadline);
+				var mul=window.location.search.substr(1).match(btn2_status);
+				if(tit!=null) return unescape(tit[2]);
+				return null;
+				if(des!=null) return unescape(des[2]);
+				return null;
+				if(deadlin!=null) return unescape(deadlin[2]);
+				return null;
+				if(mul=='off'){
+
+				}else{
+					
+				}
+			}
+
+			var urlDate=getParam('title');
+			var u1=getParam('desc');
+			var u2=getParam('deadline');
+			$('.page__title').text(urlDate);
+		//	$('.page__desc').text(u1);
+		//	$('.limit-time').text('截止时间：'+u2);
+		});
+	</script>
+
+</head>
+<body ontouchstart>
+	<div class="container bc">
+		<!--单选投票-->
+		<div class="page input js_show" id="single">
+			<div class="page__hd most-top">
+				<h1 class="page__title" style="display: inline-block;">哈哈哈</h1>&nbsp;<span class="vote_type">[单选]</span>
+				<p class="page__desc">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
+			</div>
+			<div class="page__bd">
+				<div class="weui-cells weui-cells_radio" id="single_choice">
+					<label class="weui-cell weui-check__label control_line" for="x11" style="padding-top: 10px;">
+						<div class="weui-cell__bd">
+							<p>哈</p>
+						</div>
+						<div class="weui-cell__ft">
+							<input type="radio" name="radio1" id="x11" class="weui-check">
+							<span class="weui-icon-checked"></span>
+						</div>
+					</label>
+
+					<label class="weui-cell weui-check__label control_line" for="x12">
+						<div class="weui-cell__bd">
+							<p>哈哈</p>
+						</div>
+						<div class="weui-cell__ft">
+							<input type="radio" name="radio1" id="x12" class="weui-check">
+							<span class="weui-icon-checked"></span>
+						</div>
+					</label>
+
+					<label class="weui-cell weui-check__label control_line" for="x13">
+						<div class="weui-cell__bd">
+							<p>哈哈哈</p>
+						</div>
+						<div class="weui-cell__ft">
+							<input type="radio" name="radio1" id="x13" class="weui-check">
+							<span class="weui-icon-checked"></span>
+						</div>
+					</label>
+
+				</div>
+				<div class="weui-cells__title limit-time">距结束<span>01</span>:<span>59</span>:<span>59</span></div>
+			</div>
+		</div>
+
+		<!-- 确认对话框 -->
+		<div class="dialog" hidden="hidden">
+		    <div id="dialogs">
+		        <div class="js_dialog" id="iosDialog1" style="opacity: 1;">
+		            <div class="weui-mask"></div>
+		            <div class="weui-dialog">
+		                <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div> -->
+		                <div class="weui-dialog__bd">确定选择此项吗？</div>
+		                <div class="weui-dialog__ft">
+		                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="reelect">重新选择</a>
+		                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="determine">确定</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+		<!-- <A href="new_vote.html" onclick="javascript:location.replace(this.href);event.returnValue=false; ">返回上一页并刷新页面</A>  -->
+	</div>
+
+	<script src="js/new_vote.js"></script>
+	<script type="text/javascript">
+		var url = window.location.search;
+		if(url=="?check=radio&title=ha&desc=&deadline=&anonymous=off&multi_select=off"){
+			$('#multiple').attr('hidden','hidden');
+			$('#single').css('display','block');
+			
+		}else{
+			$('#single').css('display','none');
+			$('#multiple').css('display','block');
+			
+		}
+	</script>
+
+</body>
+</html>

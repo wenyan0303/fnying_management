@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的投票</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> 
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/new_vote.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 点击创建投票 -->
+        <div class="page-pri" style="display: none;">
+            <div class="add-vote">
+                <img src="img/add.png">
+            </div>
+        </div>
+        <!-- 创建投票页面 -->
+        <div class="page-sub">
+            <div class="page input js_show">
+                <div class="page__bd">
+                    <div class="weui-cells weui-cells_form">
+                        <!-- 投票标题（必填） -->
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <input type="text" class="weui-input vote_title" placeholder="投票标题" id="vote_title" name="vote_title">
+                            </div>
+                        </div>
+                        <!-- 投票描述（选填） -->
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea vote_desc" placeholder="补充描述(选填)" rows="4" id="vote_desc" name="vote_desc"></textarea>
+                            </div>
+                        </div>
+                        <!-- 选项设定 -->
+                        <div class="weui-cell" style="padding: 0 15px;">
+                            <div class="weui-cell__bd" id="control_item">
+                                <div class="total-item">
+                                    <div class="vote-item">
+                                        <input type="text" class="weui-input options required" name="" id="required" placeholder="选项一" style="width: 80%;">
+                                    </div>
+                                    <div class="vote-item">
+                                        <input type="text" class="weui-input options required" name="" placeholder="选项二" style="width: 80%;">
+                                        <span>
+                                            <img src="img/del-item.png" class="del-item">
+                                        </span>
+                                    </div>
+                                    <div class="vote-item">
+                                        <input type="text" class="weui-input options" name="" placeholder="选项三" style="width: 80%;">
+                                        <span>
+                                            <img src="img/del-item.png" class="del-item">
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- 添加选项框 -->
+                                <div class="vote-item" id="add-item">
+                                    <label class="weui-label" style="width: 80%;">添加选项</label>
+                                    <span><img src="img/add-item.png" class="add-item"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 投票类型选择 -->                    
+                    <div class="weui-cells weui-cells_form">
+                        <!-- 默认截止日期选择 -->
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd">
+                                <label for="" class="weui-label">截止日期</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select autocomplete="off" class="weui-select" id="lately" name="lately">
+                                    <option value="1">2小时后</option>
+                                    <option value="2">6小时后</option>
+                                    <option value="3">一天后</option>
+                                    <option value="4">两天后</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 自定义截止日期 -->
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label"></label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input type="datetime-local" class="weui-input" id="deadline" name="" value="">
+                            </div>
+                        </div>
+                        <!-- 是否匿名投票 -->
+                        <div class="weui-cell weui-cell_switch">
+                            <div class="weui-cell__bd">匿名投票</div>
+                            <div class="weui-cell__ft">
+                                <input type="checkbox" class="weui-switch" name="anonymous" id="anonymous">
+                                <input type="radio" name="btn1" id="btn1" value="off" checked="checked" hidden="hidden">
+                            </div>
+                        </div>
+                        <!-- 是否多选投票 -->
+                        <div class="weui-cell weui-cell_switch">
+                            <div class="weui-cell__bd">多选投票</div>
+                            <div class="weui-cell__ft">
+                                <input type="checkbox" class="weui-switch" name="multi-select" id="multi-select">
+                                <input type="radio" name="btn2" id="btn2" value="off" checked="checked" hidden="hidden">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 创建投票按钮 -->
+                <div class="weui-btn-area">
+                    <a href="javascript:;" class="weui-btn weui-btn_primary" name="create-vote" id="create-vote">发起投票</a>
+                    <a href="javascript:;" class="weui-btn weui-btn_primary" name="create-vote" id="vote_result">投票结果</a>
+                    <!-- <a href="javascript:;" class="weui-btn weui-btn_primary" name="create-vote" id="test">test</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/new_vote.js"></script>
+    <script>
+    $(function(){
+        var op=$('.options'),
+            len =op.length;
+        $.each(op,function(i,val){
+                //op.eq(i).val('选项'+(i+1));
+                op.eq(i).attr('placeholder','选项'+(i+1));
+                //console.log(op);
+            })
+     })
+    $('#control_item').click(function(){
+        var op=$('.options'),
+        //vote-item=$('.vote-item');
+            len =op.length;
+        $.each(op,function(i,val){
+                //op.eq(i).val('选项'+(i+1));
+                op.eq(i).attr('placeholder','选项'+(i+1));
+                //console.log(op);
+            })
+    })
+     
+    </script>
+
+</body>
+</html>

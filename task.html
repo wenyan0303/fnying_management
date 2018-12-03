@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>任务详情</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" href="css/weui.css">
+  <link rel="stylesheet" href="css/task_list.css">
+  <link rel="stylesheet" href="https://weui.io/example.css">
+</head>
+<body>
+  <form class="page input js_show" method="GET" id="action" enctype="multipart/form-data">
+    <div class="container">
+      <div class="page input js_show">
+        <!-- 任务详情 -->
+        <div class="weui-cell" style="display:none">
+          <div class="weui-cell__hd">
+            <label class="weui-label">任务ID</label>
+          </div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" name="task_id" id="task_id" readonly="readonly" value="<?php echo $_GET['task_id'] ?>">
+          </div>
+        </div>
+        <div class="page__hd" style="padding: 20px 20px 0px 20px;">
+          <h1 class="page__title"><input type="text" readonly="readonly" id="task_status" id="task_status" class="wait">
+            <!-- <div class="weui-cell weui-cell_select">
+                <div class="weui-cell__bd">
+                    <select class="weui-select" class="abolish" name="select1">
+                        <option selected="selected" value="0" class="abolish"><div>0</div></option>
+                        <option value="1" class="complete"><div>1</div></option>
+                        <option value="2" class="executing"><div>2</div></option>
+                        <option value="2" class="delate"><div>2</div></option>
+                        <option value="3" class="wait"><div>3</div></option>
+                    </select>
+                </div>
+            </div> -->
+
+            <span id="task_name" class="task_name_c" name="task_name">蜂巢项目（hivebanks）中文版白皮书</span><input type="text" class="level" name="task_level" id="task_level" value="⭐⭐⭐" readonly="readonly"></h1>
+          <p class="page__desc" style="font-size: 14px;color: #000;">【监督人】<input type="text" name="check_name" class="check_name_c" id="check_name" value="袁浩" readonly="readonly">【价值】<input type="text" name="task_value" class="task_value_c" id="task_value" value="100" readonly="readonly"><br>【任务期限】<input type="text" name="limit_time" class="limit_time_c" id="limit_time" value="05-21" readonly="readonly">【创建日期】<input type="text" name="ctime" class="ctime_c" id="ctime" value="04-21" readonly="readonly"></p>
+          <div class="weui-slider-box">
+            <div class="weui-slider"   id="task_perc">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 50%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 50%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div><span id="task_perc_l" name="task_perc" class="weui-slider-box__value">50</span></div>
+            <a class="weui-btn weui-btn_mini weui-btn_default">修改</a>
+          </div>
+        </div>
+        <div class="page__bd">
+          <div class="weui-cell content">
+            <div class="weui-cell__bd">
+              <textarea class="weui-textarea" name="task_intro" id="task_intro" rows="20"></textarea>
+            </div>
+          </div>
+          <div class="weui-btn-area">
+            <a  class="weui-btn weui-btn_primary" id="showTooltips">确定</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script> -->
+  <script src="https://weui.io/zepto.min.js"></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    $(function(){
+      var $sliderTrack = $('#sliderTrack'),
+          $sliderHandler = $('#sliderHandler'),
+          $sliderValue = $('#sliderValue');
+
+      var totalLen = $('#sliderInner').width(),
+          startLeft = 0,
+          startX = 0;
+
+      $sliderHandler
+          .on('touchstart', function (e) {
+              //alert("----"+changedTouches[0]);
+              startLeft = parseInt($sliderHandler.css('left')) * totalLen / 100;
+              startX = e.changedTouches[0].clientX;
+              //alert(startX);
+          })
+          .on('touchmove', function(e){
+              var dist = startLeft + e.changedTouches[0].clientX - startX,
+                  percent;
+              dist = dist < 0 ? 0 : dist > totalLen ? totalLen : dist;
+              percent =  parseInt(dist / totalLen * 100);
+              $sliderTrack.css('width', percent + '%');
+              $sliderHandler.css('left', percent + '%');
+              $sliderValue.text(percent);
+
+              e.preventDefault();
+          });
+    });
+  </script>
+</body>
+</html>

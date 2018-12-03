@@ -1,0 +1,56 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+.put_in{
+	width:230px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding-top: 20px;
+	text-align: center;
+}
+.nums{
+	padding-top: 20px;
+	display: flex;
+	justify-content: space-between;
+}
+.num{
+	display: inline-block;
+	width:30px;
+	height: 30px;
+	background: #ebebeb;
+	font-size: 20px;
+	text-align: center;
+}
+.weui-vcode-btn span{
+	color: #757575;
+}
+.user_img img{
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+.user_img,.user_info{
+	display: inline-block;
+}
+.user_credit{
+	display: inline-block;
+	width: 70px;
+	
+	border-radius: 20px;
+	background: #f03435;
+}
+.credit{
+	display: inline-block;
+	padding-left: 5px;
+}
+.user_credit img{
+	position: relative;
+	bottom: -4px;
+	left: 6px;
+}
+.user_desc{
+	padding-top: 20px;
+}

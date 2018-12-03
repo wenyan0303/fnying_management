@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>我的投票</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">	
+	<link rel="stylesheet" href="css/weui.css">
+	<link rel="stylesheet" href="css/my_vote.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="page home js_show">
+			<div class="page__bd">
+				<div class="body-pri">
+					<div class="single">
+						<div class="single-img"><img src="img/single.png"></div>
+						<div class="single-btn">
+							<a href="javascript:;" class="weui-btn weui-btn_primary">单选投票</a>
+						</div>
+					</div>
+					<div class="multiple">
+						<div class="multiple-img"><img src="img/multiple.png"></div>
+						<div class="multiple-btn">
+							<a href="javascript:;" class="weui-btn weui-btn_primary">多选投票</a>
+						</div>
+					</div>
+				</div>
+				<div class="body-sub" style="display: none;">
+					<div class="icon-box">
+						<i class="weui-icon-info weui-icon_msg"></i>
+						<div class="icon-box__ctn">
+                			<h3 class="icon-box__title">提示</h3>
+                			<p class="icon-box__desc">还没有投票哦~先创建一份吧！</p>
+           				</div>
+					</div>
+				</div>
+				<div class="footer">
+					<div class="new" id="new">
+						<div class="new_vote">
+							<img src="img/new-default.png">
+							<p>新建</p>
+						</div>
+					</div>
+					<div class="my" id="my">
+						<div class="my_vote">
+							<img src="img/my-default.png">
+							<p>我的</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="js/my_vote.js"></script>
+
+
+</body>
+</html>

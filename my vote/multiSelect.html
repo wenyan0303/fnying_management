@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户投票</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> 
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/new_vote.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="js/new_vote.js"></script>
+    <script>
+        $(document).ready(function(){
+            //获取页面信息
+            var url = window.location.search.split('?')[1],
+                urlDate = url.split('&'),
+                page_title = decodeURIComponent(urlDate[0].split('=')[1]),
+                page_desc = decodeURIComponent(urlDate[1].split('=')[1]),
+                option = decodeURIComponent(urlDate[2].split('=')[1]),
+                opt_de = option.split(','),
+                deadline = urlDate[3].split('=')[1];
+                anonymous = urlDate[4].split('=')[1],
+                //multi_select = urlDate[5].split('=')[1];
+                year=deadline.substr(0,4);
+                month=deadline.substr(5,2),
+                day=deadline.substr(8,2),
+                hour=deadline.substr(11,2),
+                min=deadline.substr(14,2),
+                leng=opt_de.length,
+                len=0;
+                for(var l=0;l<leng;l++){
+                    if(opt_de[l].length>0){
+                        len++;
+                    }
+                }
+            console.log(urlDate);
+            console.log(deadline);
+            //console.log(year+' '+month+' '+day+' '+hour+' '+min);
+
+            //展示页面信息
+            //倒计时
+            LeftTime(year,month,day,hour,min,00);
+            //投票标题
+            $('.page__title').text(page_title);
+            //投票描述
+            $('.page__desc').text(page_desc);
+            //动态生成第一行之外其余选项
+            for (var j = 0; j < len-1; j++) {
+                var str='\
+                <label class="weui-cell weui-check__label control_line" style="margin:0 0 10px 0;>\
+                    <div class="weui-cell__hd">\
+                        <input type="checkbox" name="checkbox1" id="s11" class="weui-check">\
+                        <i class="weui-icon-checked"></i>\
+                    </div>\
+                    <div class="weui-cell__bd">\
+                        <p>选项一</p>\
+                    </div>\
+                </label>\
+                <!--投票结果-->\
+                <div class="vote_result" hidden="hidden">\
+                    <!-- 用户头像 -->\
+                    <div class="user_img">\
+                        <img src="img/touxiang.jpg"><img src="img/touxiang.jpg"><span class="percent">10票</span>\
+                    </div>\
+                    <!-- 进度条 -->\
+                    <div class="pro">\
+                        <div class="pro_detail"></div>\
+                    </div>\
+                </div>';
+                $('#multi_select').append(str);
+            }
+            //投票选项
+            var list = $('.weui-cell__bd');
+            $.each(opt_de,function(i,val){
+                //console.log(list[i]);
+                list.eq(i).text(val);
+            })
+            //匿名投票判断
+            if(anonymous=='on'){
+                $('.vote_type').text('[多选] [匿名]');
+            }else{
+                $('.vote_type').text('[多选]');
+            }
+
+            //进度条宽度获取
+            var sum=0,
+                per_item=[],
+                percent=$('.percent').text(),
+                pro_detail=$('.pro_detail');
+                percentArr = percent.split('票');
+            for(var i=0;i<percentArr.length-1;i++){
+                sum+=parseInt(percentArr[i]);
+            }
+            for(var j=0;j<percentArr.length-1;j++){
+                (function(j){
+                    pro_detail[j].style.width=(percentArr[j]/sum)*100+'%';
+                })(j);
+            }
+
+            //投票超时处理
+            $('#over_time').click(function(){
+                $('#iosDialog2').attr('hidden','hidden');
+                $('.vote_result').removeAttr('hidden');
+                $('#single_choice').find('input').attr('disabled','disabled');
+                $('.btn_pad').attr('hidden','hidden');
+            })
+        });
+    </script>
+
+</head>
+<body ontouchstart style="background: #f7f7f7;">
+    <div class="container bc">
+        <!--复选投票-->
+        <div class="page input js_show" id="multiple">
+            <!-- 投票信息 -->
+            <div class="page__hd most-top">
+                <h1 class="page__title" style="display: inline-block;">投票标题</h1>&nbsp;<span class="vote_type">[多选]</span>
+                <p class="page__desc">投票描述</p>
+            </div>
+            <!-- 投票选项 -->
+            <div class="page__bd">
+                <div class="weui-cells weui-cells_checkbox" id="multi_select">
+                    <!-- 选项一 -->
+                    <label class="weui-cell weui-check__label control_line" style="padding-top: 10px;margin: 10px 0;">
+                        <div class="weui-cell__hd">
+                            <input type="checkbox" name="checkbox1" id="s11" class="weui-check">
+                            <i class="weui-icon-checked"></i>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>选项一</p>
+                        </div>
+                    </label>
+                    <!-- 投票结果 -->
+                    <div class="vote_result" hidden="hidden">
+                        <!-- 用户头像 -->
+                        <div class="user_img">
+                            <img src="img/touxiang.jpg"><img src="img/touxiang.jpg"><span class="percent">10票</span>
+                        </div>
+                        <!-- 进度条 -->
+                        <div class="pro">
+                            <div class="pro_detail"></div>
+                        </div>
+                    </div>      
+                </div>
+
+                <!-- 投票截止倒计时 -->
+                <div class="weui-cells__title limit-time" id="limit-time"></div>
+
+                <!-- 确定按钮 -->
+                <div class="weui-btn-area btn_pad">
+                    <a href="javascritp:" class="weui-btn weui-btn_primary" id="showTooltips">确定</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 确认对话框 -->
+        <div class="dialog" hidden="hidden" id="multi_determine">
+            <div id="dialogs">
+                <div class="js_dialog" id="iosDialog1" style="opacity: 1;">
+                    <div class="weui-mask"></div>
+                    <div class="weui-dialog">
+                        <div class="weui-dialog__bd">确定选择这些选项吗？</div>
+                        <div class="weui-dialog__ft">
+                            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="reelect">重新选择</a>
+                            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="determine">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 投票结束对话框 -->
+        <div class="js_dialog" id="iosDialog2" style="opacity: 1;" hidden="hidden">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">来晚了，投票已经结束啦！</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="over_time">查看结果</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- <A href="new_vote.html" onclick="javascript:location.replace(this.href);event.returnValue=false; ">返回上一页并刷新页面</A>  -->
+    </div>
+
+    <!-- <script src="js/new_vote.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <title>用户微信注册-风赢科技</title>
+  <link rel="stylesheet" href="css/weui.css">
+  <link rel="stylesheet" href="css/user_sign.css">
+</head>
+<body>
+
+  <div class="page__hd" style="padding: 40px;">
+    <h1 class="page__title">用户微信注册</h1>
+    <p class="page__desc">你的用户微信账号尚未注册，在使用相关功能前请先填写个人信息并提交审核。</p>
+  </div>
+
+  <div class="weui-cells__title">填写信息</div>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+      <div class="weui-cell__bd"><input class="weui-input" id="user_name" type="text" placeholder="请输入你的姓名"></div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd">
+            <label class="weui-label">手机</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="user_phone" type="number" pattern="[0-9]*" placeholder="请输入你的手机号码">
+        </div>
+        <div class="weui-cell__ft">
+            <!-- <button class="weui-vcode-btn">获取验证码</button> -->
+            <button class="weui-vcode-btn">05秒后<span>重新获取</span></button>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="put_in" hidden="hidden">
+    <p>请输入验证码：</p>
+    <div class="nums">
+      <input type="text" class="num" maxlength="1">
+      <input type="text" class="num" maxlength="1">
+      <input type="text" class="num" maxlength="1">
+      <input type="text" class="num" maxlength="1">
+      <input type="text" class="num" maxlength="1">
+      <input type="text" class="num" maxlength="1">
+    </div>
+  </div>
+  <div id="toast" style="opacity: 0; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已发送</p>
+        </div>
+  </div>
+  <div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="sign_btn">注册</a>
+  </div>
+
+  <div class="weui-msg__extra-area">©2018 上海风赢网络科技有限公司</div>
+
+  <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <!-- <script src="js/common.js"></script>
+  <script src="js/wx.js"></script>
+  <script src="js/sign.js"></script> -->
+  <script>      
+    $(function() {
+      var $toast = $('#toast');
+      var i=60;
+      $('.weui-vcode-btn').on('click', function(){
+        $toast.css({'opacity':'1','display':'block'});
+        setTimeout(function () {
+          $toast.css({'opacity':'0','display':'none'});
+        }, 2000);
+        $('.put_in').slideDown() ;
+        var timer=setInterval(function(){          
+          if(i==0) clearInterval(timer);
+          i--;
+          console.log(i);
+        },1000);
+
+      });
+        
+      var inputLength = $('input').length;
+      //$('input').keyup(function(){})
+      //使用jQuery事件代理的事件绑定方式，不需要对每个input进行事件绑定，有利于性能优化
+      $('.put_in').delegate('input', 'keyup', function() {
+          var _this = $(this),
+              valLength = _this.val().length,
+              index = _this.index();
+          if (valLength > 0) {
+              if ((index + 1) > inputLength) return false; //输入完成时进行操作
+              _this.attr('data-in', 'true').next().focus();
+          } else if (valLength == 0 && _this.attr('data-in') == 'true') {
+              if (index == 0) return false; //删除所有时进行操作
+              _this.attr('data-in', 'false').prev().focus();
+          }
+      });
+    });
+
+  </script>
+</body>
+</html>
